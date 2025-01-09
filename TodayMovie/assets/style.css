@@ -1,0 +1,76 @@
+body {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  height: 150px;
+  width: 70%;
+  margin-bottom: 20px;
+}
+h2,
+h4 {
+  margin-bottom: 0;
+}
+input {
+  height: 25px;
+  width: 70%;
+  margin: 5px;
+}
+#main-container {
+  display: grid;
+  justify-content: space-evenly;
+  align-items: center;
+  grid-template-columns: repeat(auto-fill, 15rem);
+  gap: 1rem;
+  place-items: center;
+  width: 70%;
+}
+#bookmark_btn {
+  border: 0px;
+  background-color: black;
+  color: white;
+}
+#search {
+  border: 0;
+  border-radius: 15px;
+  padding: 0 15px 0 15px;
+  width: 50%;
+  height: 100px;
+}
+.movie-list {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  height: 360px;
+}
+.movie-list__card-image {
+  width: 180px;
+  border-radius: 10px;
+}
+.movie-card__title {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.movie-list__card {
+  display: block;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #2e2e2e;
+}
