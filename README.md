@@ -14,6 +14,22 @@
 
 ## API 명세서
 
+### MOVIES
+- detail
+- popular
+  
+### SEARCH
+- movies
+
 ## 참여 내용
+### 필수 기능
+- API 연결
+- 카드 UI 생성
+- 검색 기능 구현
+- 영화 세부정보 모달 창 구현
+
+### 도전 기능
+- API, UI 기능 분리
+- PROMISE 리팩토링
 
 ## 와이어 프레임
