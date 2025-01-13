@@ -9,7 +9,7 @@ const options = {
   },
 };
 
-// 영화 세부정보 가져오기 함수
+// 영화 세부정보 가져오기 API
 export const getMovieDetails = async (id) => {
   const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
   try {
@@ -21,7 +21,7 @@ export const getMovieDetails = async (id) => {
   }
 };
 
-// 영화 검색 함수
+// 영화 검색 API
 export const searchMovies = async (keyword) => {
   keyword = keyword.toLowerCase();
   const url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=1`;
@@ -35,7 +35,7 @@ export const searchMovies = async (keyword) => {
   }
 };
 
-// 인기순으로 영화 가져오기 함수
+// 인기순으로 영화리스트 가져오기 API
 export const getPopularMovieList = async () => {
   const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1`;
   try {
@@ -49,31 +49,25 @@ export const getPopularMovieList = async () => {
 };
 
 // 나중에 쓸 함수
-const getRatedMovieList = () => {
+const getRatedMovieList = async () => {
   const url = `https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=1`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-  };
-  fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => console.log("top Rated", json))
-    .catch((err) => console.error(err));
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    const moviesArray = data.results;
+    return moviesArray;
+  } catch (err) {
+    console.error(err);
+  }
 };
-const getPlayingMovieList = () => {
+const getPlayingMovieList = async () => {
   const url = `https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-  };
-  fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => console.log("paying", json))
-    .catch((err) => console.error(err));
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    const moviesArray = data.results;
+    return moviesArray;
+  } catch (err) {
+    console.error(err);
+  }
 };
