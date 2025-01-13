@@ -1,7 +1,8 @@
-import { getMovieDetails } from "./api/api.js";
-// 영화 content 그리기 함수
+import { addBookmark, deleteBookmark } from "./utils/bookmark/bookmark.js";
+
 const mainContainer = document.getElementById("main-container");
 
+// 영화리스트 그리기 함수
 export const paintMovieList = (moviesArray) => {
   mainContainer.innerHTML = ``;
   moviesArray.forEach((item) => {
@@ -19,16 +20,6 @@ export const paintMovieList = (moviesArray) => {
       </div>
   `;
   });
-
-  // 영화 세부 정보 event 위임
-  const movieList = document.querySelectorAll(".movie-list");
-  for (let item of movieList) {
-    item.addEventListener("click", async () => {
-      // getMovieDetails 여기서 api를 불러온거면 필요가 없지 않을까?
-      const movieDetails = await getMovieDetails(item.dataset.id);
-      paintModal(movieDetails);
-    });
-  }
 };
 
 // 동적 모달 생성 및 이벤트 핸들러 장착 함수
@@ -74,8 +65,38 @@ export const paintModal = (moiveDetails) => {
   modal.appendChild(modalContent);
   mainContainer.appendChild(modal);
 
+  bookmarkBtn.addEventListener("click", () => {
+    addBookmark(moiveDetails); // addBookmark 함수 호출
+  });
+
+  window.addEventListener("click", () => {
+    modal.style.display = "none";
+    modal.remove();
+  });
+
   closeBtn.addEventListener("click", () => {
     modal.style.display = "none";
     modal.remove(); // 모달 제거
+  });
+};
+
+// 북마크 리스트 그리기 함수
+export const paintBookmarkList = (moviesArray) => {
+  mainContainer.innerHTML = ``;
+  moviesArray.forEach((item) => {
+    mainContainer.innerHTML += `
+      <div class="movie-list" data-id = ${item.id}>
+        <div class="movie-list__card">
+          <img class="movie-list__card-image" src="https://image.tmdb.org/t/p/w300/${
+            item.poster_path
+          }"></img>
+        </div>
+        <div class="movie-card__title">
+          <h4>${item.title}</h4>
+          <p>평점: ${item.vote_average.toFixed(1)}</p>
+        </div>
+        <button class="bookmark__del-btn">북마크삭제</button>
+      </div>
+  `;
   });
 };
