@@ -32,4 +32,6 @@
 - API, UI 기능 분리
 - PROMISE 리팩토링
 
-## 와이어 프레임
+## 트러블 슈팅
+- https://velog.io/@leesj0706/TIL-%EA%B2%80%EC%83%89%EA%B8%B0%EB%8A%A5
+- https://velog.io/@leesj0706/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EC%9D%B4%EB%B2%A4%ED%8A%B8
