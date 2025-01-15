@@ -1,5 +1,5 @@
 import {
-  searchMovies,
+  getSearchMovies,
   getPopularMovieList,
   getMovieDetails,
 } from "./api/api.js";
@@ -8,20 +8,23 @@ import {
   paintModal,
   paintBookmarkList,
 } from "./paintHandler.js";
-import { deleteBookmark } from "./utils/bookmark/bookmark.js";
+import { deleteBookmark, addBookmark } from "./utils/bookmark.js";
+import { debounce, throttle } from "./utils/debounce.js";
+import { infiniteScroll } from "./utils/scroll.js";
 
+let currentPage = 1;
+let currentMovieList = [];
 const mainContainer = document.getElementById("main-container");
 const search = document.getElementById("search");
-const searchBtn = document.getElementById("search_btn");
 const mainTitle = document.getElementById("title");
 const bookmarkBtn = document.getElementById("bookmark_btn");
 
 const main = async () => {
   const movieLists = await getPopularMovieList();
+  currentPage++;
   paintMovieList(movieLists);
-  mainContainer.addEventListener("click", handleMovieClick);
 };
-const handleMovieClick = async (event) => {
+const movieClickHandler = async (event) => {
   const target = event.target.closest(".movie-list");
   if (
     target &&
@@ -32,31 +35,50 @@ const handleMovieClick = async (event) => {
     paintModal(movieDetails);
   }
 };
-const handleSearch = async () => {
-  const keyword = await searchMovies(search.value);
-  paintMovieList(keyword);
+const searchHandler = async () => {
+  const searchMovieLists = await getSearchMovies(search.value);
+  if (search.value === "") main();
+  else paintMovieList(searchMovieLists);
 };
-const handleSearchKeyPress = (event) => {
-  if (event.key === "Enter") {
-    handleSearch();
-  }
-};
-const handleBookmark = () => {
+const bookmarkHandler = () => {
   const movieLists = window.localStorage.getItem("bookmark");
   paintBookmarkList(JSON.parse(movieLists));
 };
-const handleDeleteBookmark = (event) => {
+const deleteBookmarkHandler = (event) => {
   if (event.target.classList.value === "bookmark__del-btn") {
     const movieId = event.target.closest(".movie-list").dataset.id;
     deleteBookmark(movieId);
-    handleBookmark();
+    bookmarkHandler();
+  }
+};
+const addBookmarkHandler = async (event) => {
+  if (event.target.classList.value === "bookmark__add-btn") {
+    const movieDetails = await getMovieDetails(
+      event.target.closest(".modal").dataset.id
+    );
+    addBookmark(movieDetails);
   }
 };
 
-mainTitle.addEventListener("click", main);
-searchBtn.addEventListener("click", handleSearch);
-search.addEventListener("keydown", handleSearchKeyPress);
-bookmarkBtn.addEventListener("click", handleBookmark);
-mainContainer.addEventListener("click", handleDeleteBookmark);
+const searchDedounceHandler = debounce(searchHandler, 200);
+const scrollHandler = infiniteScroll(
+  getPopularMovieList,
+  paintMovieList,
+  currentMovieList
+);
+const scrollThrottleHandler = throttle(async () => {
+  const newPage = await scrollHandler(currentPage);
+  if (newPage) currentPage = newPage;
+}, 200);
 
+mainTitle.addEventListener("click", main);
+search.addEventListener("input", searchDedounceHandler);
+bookmarkBtn.addEventListener("click", bookmarkHandler);
+mainContainer.addEventListener("click", (event) => {
+  deleteBookmarkHandler(event);
+  addBookmarkHandler(event);
+  movieClickHandler(event);
+});
+
+window.addEventListener("scroll", scrollThrottleHandler);
 main();
