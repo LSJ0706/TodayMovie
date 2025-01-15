@@ -1,24 +1,23 @@
-import { addBookmark, deleteBookmark } from "./utils/bookmark/bookmark.js";
-
 const mainContainer = document.getElementById("main-container");
 
 // 영화리스트 그리기 함수
 export const paintMovieList = (moviesArray) => {
-  mainContainer.innerHTML = ``;
-  moviesArray.forEach((item) => {
-    mainContainer.innerHTML += `
-      <div class="movie-list" data-id = ${item.id}>
+  moviesArray.forEach((movie) => {
+    const movieList = document.createElement("div");
+    movieList.classList.add("movie-list");
+    movieList.dataset.id = movie.id;
+    movieList.innerHTML = `
         <div class="movie-list__card">
           <img class="movie-list__card-image" src="https://image.tmdb.org/t/p/w300/${
-            item.poster_path
+            movie.poster_path
           }"></img>
         </div>
         <div class="movie-card__title">
-          <h4>${item.title}</h4>
-          <p>평점: ${item.vote_average.toFixed(1)}</p>
+          <h4>${movie.title}</h4>
+          <p>평점: ${movie.vote_average.toFixed(1)}</p>
         </div>
-      </div>
   `;
+    mainContainer.appendChild(movieList);
   });
 };
 
@@ -27,6 +26,7 @@ export const paintModal = (moiveDetails) => {
   // 동적으로 모달 생성
   const modal = document.createElement("div");
   modal.classList.add("modal");
+  modal.dataset.id = moiveDetails.id;
 
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content");
@@ -48,10 +48,10 @@ export const paintModal = (moiveDetails) => {
   releaseDate.textContent = `개봉일: ${moiveDetails.release_date}`;
 
   const rating = document.createElement("p");
-  rating.textContent = `평점: ${moiveDetails.vote_average}`;
+  rating.textContent = `평점: ${moiveDetails.vote_average.toFixed(1)}`;
 
   const bookmarkBtn = document.createElement("button");
-  bookmarkBtn.classList.add("bookmark-btn");
+  bookmarkBtn.classList.add("bookmark__add-btn");
   bookmarkBtn.textContent = "북마크 추가";
 
   modalContent.appendChild(closeBtn);
@@ -64,10 +64,6 @@ export const paintModal = (moiveDetails) => {
 
   modal.appendChild(modalContent);
   mainContainer.appendChild(modal);
-
-  bookmarkBtn.addEventListener("click", () => {
-    addBookmark(moiveDetails); // addBookmark 함수 호출
-  });
 
   window.addEventListener("click", () => {
     modal.style.display = "none";
@@ -82,18 +78,18 @@ export const paintModal = (moiveDetails) => {
 
 // 북마크 리스트 그리기 함수
 export const paintBookmarkList = (moviesArray) => {
-  mainContainer.innerHTML = ``;
-  moviesArray.forEach((item) => {
+  mainContainer.innerHTML = "";
+  moviesArray.forEach((movie) => {
     mainContainer.innerHTML += `
-      <div class="movie-list" data-id = ${item.id}>
+      <div class="movie-list" data-id = ${movie.id}>
         <div class="movie-list__card">
           <img class="movie-list__card-image" src="https://image.tmdb.org/t/p/w300/${
-            item.poster_path
+            movie.poster_path
           }"></img>
         </div>
         <div class="movie-card__title">
-          <h4>${item.title}</h4>
-          <p>평점: ${item.vote_average.toFixed(1)}</p>
+          <h4>${movie.title}</h4>
+          <p>평점: ${movie.vote_average.toFixed(1)}</p>
         </div>
         <button class="bookmark__del-btn">북마크삭제</button>
       </div>

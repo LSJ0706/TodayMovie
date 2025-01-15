@@ -10,7 +10,7 @@ const options = {
 };
 
 // 영화 세부정보 가져오기 API
-export const getMovieDetails = async (id) => {
+const getMovieDetails = async (id) => {
   const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
   try {
     const response = await fetch(url, options);
@@ -22,7 +22,7 @@ export const getMovieDetails = async (id) => {
 };
 
 // 영화 검색 API
-export const searchMovies = async (keyword) => {
+const getSearchMovies = async (keyword) => {
   keyword = keyword.toLowerCase();
   const url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=1`;
   try {
@@ -36,11 +36,12 @@ export const searchMovies = async (keyword) => {
 };
 
 // 인기순으로 영화리스트 가져오기 API
-export const getPopularMovieList = async () => {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1`;
+const getPopularMovieList = async (page = 1) => {
+  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
   try {
     const response = await fetch(url, options);
     const data = await response.json();
+    console.log(data);
     const moviesArray = data.results;
     return moviesArray;
   } catch (err) {
@@ -60,6 +61,7 @@ const getRatedMovieList = async () => {
     console.error(err);
   }
 };
+
 const getPlayingMovieList = async () => {
   const url = `https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1`;
   try {
@@ -70,4 +72,12 @@ const getPlayingMovieList = async () => {
   } catch (err) {
     console.error(err);
   }
+};
+
+export {
+  getMovieDetails,
+  getSearchMovies,
+  getPopularMovieList,
+  getRatedMovieList,
+  getPlayingMovieList,
 };
