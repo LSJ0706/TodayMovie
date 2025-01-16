@@ -13,7 +13,6 @@ import { debounce, throttle } from "./utils/debounce.js";
 import { infiniteScroll } from "./utils/scroll.js";
 
 let currentPage = 1;
-let currentMovieList = [];
 const mainContainer = document.getElementById("main-container");
 const search = document.getElementById("search");
 const mainTitle = document.getElementById("title");
@@ -61,13 +60,14 @@ const addBookmarkHandler = async (event) => {
 };
 
 const searchDedounceHandler = debounce(searchHandler, 200);
-const scrollHandler = infiniteScroll(
-  getPopularMovieList,
-  paintMovieList,
-  currentMovieList
-);
+
+// 무한 스크롤 함수 영화 리스트를 받고, 해당 리스트로 화면에 그려줌
+const scrollHandler = infiniteScroll(getPopularMovieList, paintMovieList);
+// throttle함수의 인자로 page증가 로직, 200ms delay 숫자 젼해줌
 const scrollThrottleHandler = throttle(async () => {
+  // scrolHandler로 현재페이지를 보내고 스크롤 이후 현재 페이지에서 +1한 것을 return
   const newPage = await scrollHandler(currentPage);
+  // newPage가 존재하면 currentPage를 newPage로 업데이트
   if (newPage) currentPage = newPage;
 }, 200);
 

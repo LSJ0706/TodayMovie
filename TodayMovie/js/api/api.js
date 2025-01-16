@@ -41,7 +41,6 @@ const getPopularMovieList = async (page = 1) => {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    console.log(data);
     const moviesArray = data.results;
     return moviesArray;
   } catch (err) {
