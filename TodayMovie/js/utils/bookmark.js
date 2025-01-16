@@ -1,7 +1,8 @@
 let bookmarkLists = JSON.parse(window.localStorage.getItem("bookmark")) || [];
 
-export const addBookmark = (movieLists) => {
-  // local에서 api를 여러번 불러오는것보단 그냥 해당 값을 저장하여 가져온다
+// 북마크 추가 함수
+const addBookmark = (movieLists) => {
+  // local에서 api를 여러 번 불러오는것보단 그냥 해당 값을 저장하여 가져온다
   // id, poster_path, title, vote_average의 data를 저장한다.
   const movieData = {
     id: movieLists.id,
@@ -9,11 +10,6 @@ export const addBookmark = (movieLists) => {
     title: movieLists.title,
     vote_average: movieLists.vote_average,
   };
-  if (bookmarkLists.some((movie) => movie.id === movieData.id)) {
-    alert("이미 북마크에 추가된 영화입니다!");
-    return;
-  }
-
   const addBookMarkLists = [...bookmarkLists, movieData];
   bookmarkLists = window.localStorage.setItem(
     "bookmark",
@@ -23,7 +19,8 @@ export const addBookmark = (movieLists) => {
   alert("북마크에 추가되었습니다!");
 };
 
-export const deleteBookmark = (id) => {
+// 북마크 삭제 함수
+const deleteBookmark = (id) => {
   const delBookMarkLists = bookmarkLists.filter(
     (bookmark) => bookmark.id !== Math.floor(id)
   );
@@ -32,4 +29,12 @@ export const deleteBookmark = (id) => {
     JSON.stringify(delBookMarkLists)
   );
   bookmarkLists = delBookMarkLists;
+  alert("북마크에 삭제되었습니다!");
 };
+
+// 북마크 체크함수
+const checkBookmark = (id) => {
+  console.log(bookmarkLists, id);
+  return bookmarkLists.some((movie) => movie.id === Math.floor(id));
+};
+export { addBookmark, deleteBookmark, checkBookmark };

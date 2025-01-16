@@ -1,7 +1,8 @@
 const mainContainer = document.getElementById("main-container");
 
-// 영화리스트 그리기 함수
-export const paintMovieList = (moviesArray) => {
+// 영화리스트 생성 함수
+const paintMovieList = (moviesArray) => {
+  // moviesArray의 배열을 받아 영화 리스트 화면 구성
   moviesArray.forEach((movie) => {
     const movieList = document.createElement("div");
     movieList.classList.add("movie-list");
@@ -22,62 +23,44 @@ export const paintMovieList = (moviesArray) => {
 };
 
 // 동적 모달 생성 및 이벤트 핸들러 장착 함수
-export const paintModal = (moiveDetails) => {
+const paintModal = (movieDetails, isBooked) => {
   // 동적으로 모달 생성
   const modal = document.createElement("div");
   modal.classList.add("modal");
-  modal.dataset.id = moiveDetails.id;
-
-  const modalContent = document.createElement("div");
-  modalContent.classList.add("modal-content");
-
-  const closeBtn = document.createElement("button");
-  closeBtn.classList.add("close-btn");
-  closeBtn.textContent = "×";
-
-  const title = document.createElement("h2");
-  title.textContent = moiveDetails.title;
-
-  const img = document.createElement("img");
-  img.src = `https://image.tmdb.org/t/p/w300/${moiveDetails.poster_path}`;
-
-  const description = document.createElement("p");
-  description.textContent = moiveDetails.overview;
-
-  const releaseDate = document.createElement("p");
-  releaseDate.textContent = `개봉일: ${moiveDetails.release_date}`;
-
-  const rating = document.createElement("p");
-  rating.textContent = `평점: ${moiveDetails.vote_average.toFixed(1)}`;
-
-  const bookmarkBtn = document.createElement("button");
-  bookmarkBtn.classList.add("bookmark__add-btn");
-  bookmarkBtn.textContent = "북마크 추가";
-
-  modalContent.appendChild(closeBtn);
-  modalContent.appendChild(img);
-  modalContent.appendChild(title);
-  modalContent.appendChild(description);
-  modalContent.appendChild(releaseDate);
-  modalContent.appendChild(rating);
-  modalContent.appendChild(bookmarkBtn);
-
-  modal.appendChild(modalContent);
+  modal.dataset.id = movieDetails.id;
+  modal.innerHTML = `
+      <div class="modal-content">
+        <button class="close-btn">X</button>
+        <img src="https://image.tmdb.org/t/p/original/${
+          movieDetails.backdrop_path
+        }" />
+        <h2>${movieDetails.title}</h2>
+        <p>${movieDetails.overview}</p>
+        <p>개봉일: ${movieDetails.release_date}</p>
+        <p>평점: ${movieDetails.vote_average.toFixed(1)}</p>
+        <button class="bookmark__toggle-btn">${
+          isBooked ? "북마크 삭제" : "북마크 추가"
+        }</button>
+      </div>
+      `;
   mainContainer.appendChild(modal);
 
-  window.addEventListener("click", () => {
-    modal.style.display = "none";
-    modal.remove();
+  // close button 클릭시 modal 삭제
+  mainContainer.addEventListener("click", (event) => {
+    if (event.target.classList.contains("close-btn")) {
+      const modal = event.target.closest(".modal");
+      modal.remove();
+    }
   });
-
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-    modal.remove(); // 모달 제거
+  // window 객체를 클릭하면 modal 삭제
+  window.addEventListener("click", () => {
+    modal.remove();
   });
 };
 
-// 북마크 리스트 그리기 함수
-export const paintBookmarkList = (moviesArray) => {
+// 북마크 리스트 생성 함수
+const paintBookmarkList = (moviesArray) => {
+  // moviesArray의 배열을 받아 영화 리스트 화면 구성
   mainContainer.innerHTML = "";
   moviesArray.forEach((movie) => {
     mainContainer.innerHTML += `
@@ -91,8 +74,9 @@ export const paintBookmarkList = (moviesArray) => {
           <h4>${movie.title}</h4>
           <p>평점: ${movie.vote_average.toFixed(1)}</p>
         </div>
-        <button class="bookmark__del-btn">북마크삭제</button>
       </div>
   `;
   });
 };
+
+export { paintMovieList, paintModal, paintBookmarkList };
