@@ -17,7 +17,7 @@
 ### MOVIES
 - detail
 - popular
-  
+
 ### SEARCH
 - movies
 
@@ -27,10 +27,15 @@
 - 카드 UI 생성
 - 검색 기능 구현
 - 영화 세부정보 모달 창 구현
+- 모듈화 및 코드 분리
 
 ### 도전 기능
+- 이벤트 위임
+- 로컬 스토리지를 이용한 북마크 기능
+- PROMISE async/await 리팩토링
+- 검색 디바운싱
+- 무한 스크롤 쓰로틀링
 - API, UI 기능 분리
-- PROMISE 리팩토링
 
 ## 트러블 슈팅
 - https://velog.io/@leesj0706/TIL-%EA%B2%80%EC%83%89%EA%B8%B0%EB%8A%A5
