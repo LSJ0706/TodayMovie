@@ -1,85 +1,112 @@
-body {
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-}
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-  height: 150px;
-  width: 70%;
-  margin-bottom: 20px;
-}
-h2,
-h4 {
-  margin-bottom: 0;
-}
-input {
-  height: 25px;
-  width: 70%;
-  margin: 5px;
-}
+/*메인 컨테이너*/
 #main-container {
   display: grid;
-  justify-content: space-evenly;
+  width: 70%;
+  min-width: 30%;
   align-items: center;
+  justify-content: space-evenly;
   grid-template-columns: repeat(auto-fill, 15rem);
   gap: 1rem;
   place-items: center;
-  width: 70%;
-}
-#bookmark_btn {
-  background-color: black;
-  color: white;
 }
 
+/* 영화 카드 */
 .movie-list {
   display: flex;
   flex-direction: column;
-  width: 180px;
+  width: 200px;
   height: 360px;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  justify-content: space-between;
 }
 .movie-list__card-image {
+  display: block;
   width: 180px;
+  height: 270px;
   border-radius: 10px;
 }
 .movie-card__title {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  justify-content: space-between;
 }
 .movie-list__card {
   display: block;
 }
+
+/* 모달 */
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
-  background-color: black;
-  width: inherit * 90%;
+  background-color: #000000e6;
+  border-radius: 10px;
+  box-shadow: 5px 0 10px #00000080, -5px 0 10px #00000080, 0 5px 10px #00000080;
+  z-index: 10;
+}
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1660px;
+  height: 90%;
+  font-size: 20px;
+}
+/* 모달 닫기 버튼 */
+.modal .close-btn {
+  display: block;
+  align-self: flex-end;
+  font-size: 36px;
+  background: none;
+  border: none;
+  margin-top: 10px;
+  color: #ffffff;
+  cursor: pointer;
+}
+.modal .close-btn:hover {
+  color: gray;
+}
+.modal img {
+  width: 60%;
+  height: 60%;
+}
+/* 배경 블러 처리 */
+body.modal-open {
+  overflow: hidden;
+}
+/*?*/
+body.modal-open::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 9;
 }
 
+/* 검색 */
 #search {
-  color: white;
-  border-width: 0px;
-  background: transparent;
-  outline: none;
-  font-size: 18px;
   width: 100%;
+  font-size: 18px;
+  color: #ffffff;
+  background: transparent;
+  border-width: 0px;
+  outline: none;
 }
 #search_btn {
-  background-color: black;
-  color: white;
   width: 36px;
+  background-color: #000000;
+  color: #ffffff;
 }
 #search_btn:hover {
   cursor: pointer;
@@ -89,10 +116,12 @@ input {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid white;
-  margin-bottom: 20px;
   width: 100%;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ffffff;
 }
+
+/* 제목 */
 #title {
   cursor: pointer;
 }

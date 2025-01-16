@@ -1,6 +1,8 @@
+// apikey 무료 api라서 감추지않음, 만약 유료였다면 env파일이나 gitignore에 담아 처리
 const apiKey =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTg5OWZiN2FlMzg3NDZmNmU0NjI2MjllZGQ3NDMzZSIsIm5iZiI6MTczNjI5NjU0NS4xLCJzdWIiOiI2NzdkYzg2MTM0YTRlNzVlNDk3YWY2YmUiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.T3mfeJN9v6bdDsimYDYgD5gIxsObvH4jN4RaPQ6HXdA";
 
+// GET method option 처리
 const options = {
   method: "GET",
   headers: {
@@ -9,7 +11,7 @@ const options = {
   },
 };
 
-// 영화 세부정보 가져오기 API
+// 영화 세부정보 GET API
 const getMovieDetails = async (id) => {
   const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
   try {
@@ -21,7 +23,7 @@ const getMovieDetails = async (id) => {
   }
 };
 
-// 영화 검색 API
+// 영화 검색 GET API
 const getSearchMovies = async (keyword) => {
   keyword = keyword.toLowerCase();
   const url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=ko-KR&page=1`;
@@ -35,9 +37,9 @@ const getSearchMovies = async (keyword) => {
   }
 };
 
-// 인기순으로 영화리스트 가져오기 API
-const getPopularMovieList = async (page = 1) => {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+// 인기순으로 평점순 GET API
+const getTopRatedMovieList = async (page = 1) => {
+  const url = `https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=${page}`;
   try {
     const response = await fetch(url, options);
     const data = await response.json();
@@ -48,35 +50,4 @@ const getPopularMovieList = async (page = 1) => {
   }
 };
 
-// 나중에 쓸 함수
-const getRatedMovieList = async () => {
-  const url = `https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=1`;
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
-    const moviesArray = data.results;
-    return moviesArray;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const getPlayingMovieList = async () => {
-  const url = `https://api.themoviedb.org/3/movie/now_playing?language=ko-KR&page=1`;
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
-    const moviesArray = data.results;
-    return moviesArray;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export {
-  getMovieDetails,
-  getSearchMovies,
-  getPopularMovieList,
-  getRatedMovieList,
-  getPlayingMovieList,
-};
+export { getMovieDetails, getSearchMovies, getTopRatedMovieList };
