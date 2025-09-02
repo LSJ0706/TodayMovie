@@ -9,7 +9,6 @@ const Home = () => {
           <button>북마크 보기</button>
         </header>
         <main></main>
-      <script type="module" src="./js/main.js"></script>
     </div>
   );
 };
